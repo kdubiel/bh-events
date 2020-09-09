@@ -65,7 +65,7 @@ CLIENT_PORT=3000
 
 ```
 
-3. Run `lerna bootstrap` in root directory
+3. Run `yarn install` in root directory
 4. Run `yarn build` in root directory
 
 ### Running apps
