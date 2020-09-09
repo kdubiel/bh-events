@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "name": "@project/validators",
+  "private": true,
+  "main": "build/index.js",
+  "typing": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w --preserveWatchOutput"
+  },
+  "devDependencies": {
+    "@types/yup": "^0.29.6",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "@project/types": "*",
+    "yup": "^0.29.3"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "status": {
+    "400": "Nieprawidłowe żądanie.",
+    "404": "Nie znaleziono.",
+    "500": "Wystąpił wewnętrzny błąd serwera, spróbuj ponownie później lub skontaktuj się z administratorem."
+  },
+  "event-not-found": "Nie odnaleziono wydarzenia o podanych parametrach."
+}

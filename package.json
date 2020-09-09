@@ -1,0 +1,67 @@
+{
+  "name": "mern-starter",
+  "description": "MERN starter project.",
+  "author": {
+    "name": "Kamil Dubiel",
+    "email": "kamdubdev@gmail.com"
+  },
+  "license": "MIT",
+  "contributors": [],
+  "private": true,
+  "sideEffects": false,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "scripts": {
+    "launch": "yarn install && yarn build",
+    "prepush": "yarn prettier:check && yarn lint && yarn test",
+    "watch": "lerna run watch --parallel",
+    "watch:client": "lerna run watch --scope={@project/client,@project/types,@project/validators,@project/locales} --parallel",
+    "watch:api": "lerna run watch --scope={@project/api,@project/types,@project/validators,@project/locales} --parallel",
+    "watch:types": "yarn workspace @project/types run watch",
+    "watch:validators": "yarn workspace @project/validators run watch",
+    "watch:locales": "yarn workspace @project/locales run watch",
+    "build": "lerna run build",
+    "build:api": "lerna run build --scope={@project/api,@project/types,@project/validators,@project/locales}",
+    "build:client": "lerna run build --scope={@project/client,@project/types,@project/validators,@project/locales}",
+    "build:types": "yarn workspace @project/types run build",
+    "build:validators": "lerna run build --scope={@project/types,@project/validators}",
+    "build:locales": "lerna run build --scope=@project/locales",
+    "docker:up:dev": "docker-compose --env-file .env.dev -f docker-compose.dev.yml up",
+    "docker:up:prod": "docker-compose --env-file .env.prod -f docker-compose.prod.yml up",
+    "docker:build:dev": "docker-compose --env-file .env.dev -f docker-compose.dev.yml build",
+    "docker:build:prod": "docker-compose --env-file .env.prod -f docker-compose.prod.yml build",
+    "prettier:check": "prettier -c .",
+    "prettier:fix": "prettier . --write",
+    "lint": "eslint . --ext .js,.jsx,.tsx,.ts --max-warnings=0",
+    "lint:fix": "eslint . --ext .js,.jsx,.tsx,.ts --max-warnings=0 --fix",
+    "test": "lerna run test --stream",
+    "test:coverage": "lerna run test:coverage --stream",
+    "test:api:watch": "yarn workspace @project/api run test:watch",
+    "test:client:watch": "yarn workspace @project/client run test:watch"
+  },
+  "dependencies": {
+    "lerna": "^3.20.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn prepush"
+    }
+  }
+}

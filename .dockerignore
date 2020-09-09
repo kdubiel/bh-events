@@ -1,0 +1,14 @@
+**/node_modules/
+**/build/
+**/tsconfig.tsbuildinfo
+
+**/Dockerfile*
+**/.dockerignore
+
+**/.prettierrc
+**/.eslintignore
+**/.eslintrc.json
+
+**/*.log
+
+**/.env*

@@ -1,0 +1,114 @@
+image: node:12.18.3-alpine
+
+variables:
+  PACKAGES_PATH: './packages'
+  MAX_LINT_WARNINGS: 0
+  COMMON_PACKAGES: '@project/types,@project/validators,@project/locales'
+
+cache:
+  key: '$CI_PIPELINE_ID'
+  paths:
+    - node_modules
+    - $PACKAGES_PATH/**/node_modules
+    - $PACKAGES_PATH/**/build
+
+stages:
+  - sync
+  - lint
+  - build
+  - test
+
+Setup:
+  stage: sync
+  script:
+    - yarn global add lerna
+    - lerna bootstrap
+
+# Lint Jobs
+
+Lint_API:
+  stage: lint
+  needs: [Setup]
+  script:
+    - yarn prettier -c $CI_PROJECT_DIR/$PACKAGES_PATH/api/
+    - >-
+      yarn eslint $PACKAGES_PATH/client
+      --ext .js,.ts
+      --max-warnings=$MAX_LINT_WARNINGS
+
+Lint_Client:
+  stage: lint
+  needs: [Setup]
+  script:
+    - >-
+      yarn prettier
+      -c $PACKAGES_PATH/client/
+    - >-
+      yarn eslint $CI_PROJECT_DIR/$PACKAGES_PATH/client
+      --ext .js,.jsx,.tsx,.ts
+      --max-warnings=$MAX_LINT_WARNINGS
+
+Lint_Common:
+  stage: lint
+  needs: [Setup]
+  script:
+    - >-
+      yarn lerna exec
+      --
+      --scope={$COMMON_PACKAGES}
+      yarn prettier
+      --
+      -c .
+      --config $CI_PROJECT_DIR/.prettierrc
+      --ignore-path $CI_PROJECT_DIR/.prettierignore
+    - >-
+      yarn lerna exec
+      --
+      --scope={$COMMON_PACKAGES}
+      yarn eslint .
+      --
+      --ext .js,.jsx,.tsx,.ts
+      --config $CI_PROJECT_DIR/.eslintrc.json
+      --ignore-path $CI_PROJECT_DIR/.eslintignore
+
+# Build Jobs
+
+Build:
+  stage: build
+  needs: [Lint_Common, Lint_Client, Lint_API]
+  script: yarn lerna run build
+
+# Test Jobs
+
+Test_API:
+  stage: test
+  needs: [Build]
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+  script:
+    - |-
+      if [[ $CI_BUILD_REF_NAME == "master" ]] || [[ $CI_BUILD_REF_NAME == "develop" ]]; then
+        yarn workspace @project/api run test:coverage --ci
+      else
+        yarn workspace @project/api run test:coverage --ci --changeSince=develop
+      fi
+
+Test_Client:
+  stage: test
+  needs: [Build]
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+  script:
+    - |-
+      if [[ $CI_BUILD_REF_NAME == "master" ]] || [[ $CI_BUILD_REF_NAME == "develop" ]]; then
+        yarn workspace @project/client run test:coverage --ci
+      else
+        yarn workspace @project/client run test:coverage --ci --changeSince=develop
+      fi
+
+Test_Common:
+  stage: test
+  needs: [Build]
+  script:
+    - >-
+      yarn lerna run test
+      --scope={$COMMON_PACKAGES}
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/

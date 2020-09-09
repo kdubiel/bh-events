@@ -1,0 +1,30 @@
+# Builder stage
+FROM node:12.18.3-alpine as api-builder
+
+WORKDIR /user/app
+
+COPY package.json .
+COPY yarn.lock .
+COPY lerna.json .
+COPY tsconfig.base.json .
+
+COPY ./packages/api ./packages/api
+COPY ./packages/types ./packages/types
+COPY ./packages/validators ./packages/validators
+COPY ./packages/locales ./packages/locales
+
+RUN yarn
+RUN yarn build
+
+# Runner stage
+FROM node:12.18.3-alpine as api-runner
+
+WORKDIR /user/app
+
+COPY --from=api-builder /user/app/packages/api/build ./build
+
+ENV NODE_ENV production
+ARG PORT
+EXPOSE $PORT
+
+CMD node ./build/bundle.js

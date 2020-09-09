@@ -1,0 +1,24 @@
+{
+  "language": "Language",
+  "nodata": "No data to display",
+  "buttons": {
+    "next": "Next",
+    "cancel": "Cancel",
+    "sign-in": "Sign in",
+    "sign-up": "Sign up",
+    "sign-out": "Sign out",
+    "log-in": "Log in",
+    "log-out": "Log out",
+    "save": "Save",
+    "order": "Order",
+    "accept": "Accept",
+    "ok": "OK"
+  },
+  "labels": {
+    "title": "Title",
+    "date": "Date",
+    "first-name": "First name",
+    "last-name": "Last name",
+    "email": "Email"
+  }
+}

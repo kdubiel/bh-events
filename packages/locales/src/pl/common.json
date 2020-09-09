@@ -1,0 +1,24 @@
+{
+  "language": "Język",
+  "nodata": "Brak danych do wyświetlenia",
+  "buttons": {
+    "next": "Dalej",
+    "cancel": "Anuluj",
+    "sign-in": "Zaloguj się",
+    "sign-up": "Zarejestruj się",
+    "sign-out": "Wyloguj się",
+    "log-in": "Zaloguj",
+    "log-out": "Wyloguj",
+    "save": "Zapisz",
+    "order": "Zamów",
+    "accept": "Akceptuj",
+    "ok": "OK"
+  },
+  "labels": {
+    "title": "Tytuł",
+    "date": "Data",
+    "first-name": "Imię",
+    "last-name": "Nazwisko",
+    "email": "Email"
+  }
+}

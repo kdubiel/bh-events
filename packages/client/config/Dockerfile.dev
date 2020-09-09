@@ -1,0 +1,21 @@
+FROM node:12.18.3-alpine
+
+WORKDIR /user/app
+
+COPY package.json .
+COPY yarn.lock .
+COPY lerna.json .
+COPY tsconfig.base.json .
+
+COPY ./packages/client ./packages/client
+COPY ./packages/types ./packages/types
+COPY ./packages/validators ./packages/validators
+COPY ./packages/locales ./packages/locales
+
+ARG PORT
+EXPOSE $PORT
+
+RUN yarn
+RUN yarn build
+
+CMD yarn watch:client

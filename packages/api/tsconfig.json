@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "baseUrl": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmit": false
+  },
+  "references": [
+    {
+      "path": "../types"
+    },
+    {
+      "path": "../validators"
+    },
+    {
+      "path": "../locales"
+    }
+  ],
+  "include": ["src"]
+}

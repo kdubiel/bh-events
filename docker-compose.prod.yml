@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  api:
+    container_name: mern-starter-api-prod
+    image: mern-starter-api-prod
+    build:
+      context: ./
+      dockerfile: packages/api/config/Dockerfile.prod
+      args:
+        PORT: ${API_PORT}
+    ports:
+      - ${API_PORT}:${API_PORT}
+    command: node ./build/bundle.js
+    environment:
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      MONGO_URL: ${MONGO_URL}
+      PORT: ${API_PORT}
+
+  client:
+    container_name: mern-starter-client-prod
+    image: mern-starter-client-prod
+    build:
+      context: ./
+      dockerfile: packages/client/config/Dockerfile.prod
+      args:
+        PORT: ${CLIENT_PORT_NGINX}
+        REACT_APP_API_PORT: ${API_PORT}
+        REACT_APP_API_URL: ${API_URL}
+    ports:
+      - ${CLIENT_PORT_LOCAL}:${CLIENT_PORT_NGINX}
+    command: nginx -g 'daemon off;'

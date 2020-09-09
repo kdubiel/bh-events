@@ -1,0 +1,35 @@
+# Builder stage
+FROM node:12.18.3-alpine as client-builder
+
+WORKDIR /user/app
+
+COPY package.json .
+COPY yarn.lock .
+COPY lerna.json .
+COPY tsconfig.base.json .
+
+COPY ./packages/client ./packages/client
+COPY ./packages/types ./packages/types
+COPY ./packages/validators ./packages/validators
+COPY ./packages/locales ./packages/locales
+
+RUN yarn
+RUN yarn build
+
+# Runner stage
+FROM nginx:1.19.2-alpine as client-runner
+
+COPY --from=client-builder /user/app/packages/client/build /var/www
+
+ARG REACT_APP_API_PORT
+ARG REACT_APP_API_URL
+ARG PORT
+ENV PORT_NGINX $PORT
+ENV NODE_ENV production
+
+RUN rm /etc/nginx/conf.d/default.conf
+COPY ./packages/client/config/nginx.conf /etc/nginx/templates/nginx.conf.template
+
+EXPOSE $PORT
+
+CMD ["nginx", "-g", "daemon off;"]

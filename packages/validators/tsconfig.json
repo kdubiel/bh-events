@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["dom", "esnext"],
+    "outDir": "./build",
+    "baseUrl": "src",
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": false,
+    "composite": true,
+    "module": "commonjs"
+  },
+  "references": [
+    {
+      "path": "../types"
+    }
+  ],
+  "include": ["./src"],
+  "exclude": ["build"]
+}

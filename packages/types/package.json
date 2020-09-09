@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "name": "@project/types",
+  "private": true,
+  "main": "build/index.js",
+  "typing": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w --preserveWatchOutput"
+  },
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  }
+}
